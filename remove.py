@@ -1,4 +1,7 @@
+#put this python file in same directory where there are video files it can be kept in parent directory os.listdir()will do its job
+
 import moviepy
+
 import os
 import glob
 import moviepy.editor 
