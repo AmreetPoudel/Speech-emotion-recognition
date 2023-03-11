@@ -2,9 +2,9 @@ import pyaudio
 import wave
 import librosa
 import numpy as np
-import model
-import feature_extraction
-from IPython.display import Audio, display
+import model as md
+import feature_extraction 
+# from IPython.display import Audio, display
 from sklearn.preprocessing import MinMaxScaler
 
 
@@ -49,12 +49,12 @@ print("Recording saved to {}".format(WAVE_OUTPUT_FILENAME))
 
 
 
-model=model
-song="recording.wav" 
+model=md.model()
+song="amrit_happy.wav" 
 
-display(Audio(song, autoplay=True))
+# display(Audio(song, autoplay=True))
 data, sample_rate = librosa.load(song, duration=2.5, offset=0.6)
-mfcc=feature_extraction(data)
+mfcc=feature_extraction.feature_extraction(data,sample_rate)
 scaler = MinMaxScaler(feature_range = (-1,1))
 mfcc = np.array(mfcc).reshape(-1 , 1)
 mfcc =  scaler.fit_transform(mfcc)
@@ -64,7 +64,7 @@ print(prediction.argmax())
 for item in prediction:
   pass
 
-emotions=["angry","disgust","surprise","happy","fear","neutral","sad","calm"]
+emotions=["surprise","sad","neutral","happy","fear","disgust","calm","angry"]
 emotionPrediction=zip(emotions,item)
 for emotion,item in emotionPrediction:
   print(str(emotion)+":"+str(int(item*100))+"%")
