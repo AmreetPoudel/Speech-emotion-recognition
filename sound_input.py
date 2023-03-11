@@ -4,14 +4,17 @@ import librosa
 import numpy as np
 import model
 import feature_extraction
+from IPython.display import Audio, display
+from sklearn.preprocessing import MinMaxScaler
+
 
 # Set the audio parameters
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
 CHUNK = 1024
-RECORD_SECONDS = 4
-WAVE_OUTPUT_FILENAME = "recording.wav"
+RECORD_SECONDS = 3
+WAVE_OUTPUT_FILENAME = "amrit_happy.wav"
 
 # Initialize the PyAudio object
 audio = pyaudio.PyAudio()
@@ -48,11 +51,10 @@ print("Recording saved to {}".format(WAVE_OUTPUT_FILENAME))
 
 model=model
 song="recording.wav" 
-from IPython.display import Audio, display
+
 display(Audio(song, autoplay=True))
 data, sample_rate = librosa.load(song, duration=2.5, offset=0.6)
 mfcc=feature_extraction(data)
-from sklearn.preprocessing import MinMaxScaler
 scaler = MinMaxScaler(feature_range = (-1,1))
 mfcc = np.array(mfcc).reshape(-1 , 1)
 mfcc =  scaler.fit_transform(mfcc)
