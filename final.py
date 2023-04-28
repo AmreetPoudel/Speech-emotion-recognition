@@ -1,11 +1,3 @@
-    # # Display the emotion with the highest probability
-    # max_emotion = max(emotion_prediction, key=emotion_prediction.get)
-    # st.subheader("Emotion Prediction")
-    # st.write(f"The predicted emotion is **{max_emotion}** with a probability of **{emotion_prediction[max_emotion]:.2%}**.")
-
-
-
-
 import streamlit as st
 import pyaudio
 import wave
@@ -28,15 +20,15 @@ if uploaded_file is not None:
         st.subheader("Selected File")
         st.write(uploaded_file.name)
 
-emotion_prediction = None
-with prob_col:
-    st.subheader("Emotion Probabilities")
-    if emotion_prediction is not None:
-        fig, ax = plt.subplots(figsize=(6,6))
-        ax.pie(emotion_prediction.values(), labels=emotion_prediction.keys(), autopct='%1.1f%%')
-        ax.set_title("Emotion Probabilities", fontsize=18)
-        ax.axis('equal')
-        st.pyplot(fig)
+    emotion_prediction = None
+    with prob_col:
+        # st.subheader("Emotion Probabilities")
+        if emotion_prediction is not None:
+            fig, ax = plt.subplots(figsize=(1,1))
+            ax.pie(emotion_prediction.values(), labels=emotion_prediction.keys(), autopct='%1.1f%%')
+            ax.set_title("Emotion Probabilities", fontsize=4)
+            ax.axis('equal')
+            st.pyplot(fig)
 
 # Initialize the PyAudio object
 audio = pyaudio.PyAudio()
@@ -62,9 +54,9 @@ def predict_emotion(_model, mfcc):
 # Define a function to plot the emotion probabilities as a pie chart
 @st.cache_data
 def plot_emotion_probabilities(emotion_prediction):
-    fig, ax = plt.subplots(figsize=(6,6))
+    fig, ax = plt.subplots(figsize=(2,2))
     ax.pie(emotion_prediction.values(), labels=emotion_prediction.keys(), autopct='%1.1f%%')
-    ax.set_title("Emotion Probabilities", fontsize=18)
+    ax.set_title("Emotion Probabilities", fontsize=6)
     ax.axis('equal')
     return fig
 
@@ -85,6 +77,7 @@ if uploaded_file is not None:
 
     # Display the emotion with the highest probability
     max_emotion = max(emotion_prediction, key=emotion_prediction.get)
-    st.subheader("Emotion Prediction")
-    st.write(f"The predicted emotion is **{max_emotion}** with a probability of **{emotion_prediction[max_emotion]:.2%}**.")
-    
+    with prob_col:
+        # st.subheader("Emotion Probabilities")
+        fig = plot_emotion_probabilities(emotion_prediction)
+        st.pyplot(fig)
