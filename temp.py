@@ -57,25 +57,17 @@ if uploaded_file is not None:
     model = md.model()
     emotion_prediction = predict_emotion(model, mfcc)
 
-    # Check if the file name matches the emotion
-    file_emotion = uploaded_file.name.split('.')[0].lower()
-    if file_emotion in emotion_prediction:
-        final_emotion = file_emotion
-        final_emotion_prob = emotion_prediction[file_emotion]
-    else:
-        final_emotion = max(emotion_prediction, key=emotion_prediction.get)
-        final_emotion_prob = emotion_prediction[final_emotion]
-
     # Play the audio file
     st.audio(file_name)
 
     # Create columns for left and right side
     left_column, right_column = st.columns(2)
 
-    # Display the final emotion and probability on the left side
-    final_emotion_prob_percentage = "{:.2f}".format(final_emotion_prob * 100)
-    left_column.subheader("Final Emotion")
-    left_column.write(f"<p style='font-size:16pt'>The emotion in the sound is {final_emotion} ({final_emotion_prob_percentage}%)</p>", unsafe_allow_html=True)
+    # Display the emotion with the highest probability on the left side
+    max_emotion = max(emotion_prediction, key=emotion_prediction.get)
+    max_emotion_prob = "{:.2f}".format(emotion_prediction[max_emotion]*100)
+    left_column.subheader("Highest Probability")
+    left_column.write(f"<p style='font-size:16pt'>The emotion in the sound is {max_emotion} ({max_emotion_prob}%)</p>", unsafe_allow_html=True)
 
     # Display the wave plot on the right side
     right_column.subheader("Wave Plot")
@@ -84,7 +76,7 @@ if uploaded_file is not None:
     ax.set_title("Waveform")
     right_column.pyplot(fig)
 
-     # Display the mel spectrogram, delta spectrogram, and double delta spectrogram in a 2x2 grid
+    # Display the mel spectrogram, delta spectrogram, and double delta spectrogram in a 2x2 grid
     st.subheader("Mel Spectrogram, Delta Spectrogram, and Double Delta Spectrogram")
     mel_spectrogram = librosa.feature.melspectrogram(y=data, sr=sample_rate)
     delta_spectrogram = librosa.feature.delta(mel_spectrogram)

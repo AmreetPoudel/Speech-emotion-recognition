@@ -66,6 +66,8 @@ for item in prediction:
   pass
 
 emotions=["surprise","sad","neutral","happy","fear","disgust","calm","angry"]
+
+
 emotionPrediction=zip(emotions,item)
 for emotion,item in emotionPrediction:
   print(str(emotion)+":"+str(int(item*100))+"%")
