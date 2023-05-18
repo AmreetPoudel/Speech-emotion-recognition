@@ -26,6 +26,7 @@ stream = audio.open(format=FORMAT, channels=CHANNELS,
 
 # Start recording
 print("Recording...")
+
 frames = []
 for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
     data = stream.read(CHUNK)
