@@ -73,9 +73,8 @@ if uploaded_file is not None:
         multiple_emotions.append("fear")
     if emotion_prediction["surprise"] >= 0.1:
         multiple_emotions.append("surprise")
-    if emotion_prediction["sad"] >= 0.16:
-        # multiple_emotions.append("sad")
-        pass
+    if emotion_prediction["sad"] >= 0.15:
+        multiple_emotions.append("sad")
     if emotion_prediction["calm"] >= 0.07:
         multiple_emotions.append("calm")
 
