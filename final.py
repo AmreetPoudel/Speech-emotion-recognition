@@ -37,7 +37,7 @@ if uploaded_file is not None:
     def predict_emotion(_model, mfcc):
         prediction = _model.predict(mfcc)
         # emotions = ["surprise", "sad", "neutral", "happy", "fear", "disgust", "calm", "angry"]
-        emotions = ['angry','calm','disgust','fear','happy','neutral','sad','surprise'] 
+        emotions = ['angry','fear','disgust','calm','happy','neutral','sad','surprise'] #calm and fear exchanged
                  
         emotion_prediction = dict(zip(emotions, prediction[0]))
         # Round off probabilities to 3 significant digits
@@ -73,11 +73,12 @@ if uploaded_file is not None:
         multiple_emotions.append("fear")
     if emotion_prediction["surprise"] >= 0.1:
         multiple_emotions.append("surprise")
-    if emotion_prediction["sad"] >= 0.16:
-        # multiple_emotions.append("sad")
-        pass
-    if emotion_prediction["calm"] >= 0.07:
+    if emotion_prediction["sad"] >= 0.27:
+        multiple_emotions.append("sad")
+    if emotion_prediction["calm"] >= 0.129:
         multiple_emotions.append("calm")
+    if emotion_prediction["angry"] >= 0.058:
+        multiple_emotions.append("angry")
 
     # Play the audio file
     st.audio(file_name)
